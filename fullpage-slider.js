@@ -40,8 +40,16 @@ class VERTICALSLIDER {
     }
 
     enableDisableSlider(){
+
+        function swiperWheelEvents(){
+            
+        }
+
+
         // issues is here when elements comes in view.
         if(this.elementIsInView){
+
+
             if(this.activeSlide == 0 && this.isScroll && !this.hasSlidesChanged && !this.sliderReset){
                 // this.swpCrtl.params.mousewheel.releaseOnEdges = false;
                 // console.log("active slide 0, scroll down, slide not changed")
@@ -82,21 +90,89 @@ class VERTICALSLIDER {
         }
     }
 
+    removeScroll(flag){
+        // left: 37, up: 38, right: 39, down: 40,
+        // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+        var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
+        function preventDefault(e) {
+        e.preventDefault();
+        }
+
+        function preventDefaultForScrollKeys(e) {
+        if (keys[e.keyCode]) {
+            preventDefault(e);
+            return false;
+        }
+        }
+
+        // modern Chrome requires { passive: false } when adding event
+        var supportsPassive = false;
+        try {
+        window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+            get: function () { supportsPassive = true; } 
+        }));
+        } catch(e) {}
+
+        var wheelOpt = supportsPassive ? { passive: false } : false;
+        var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+        // call this to Disable
+        function disableS() {
+        window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+        window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+        window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+        window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+        }
+
+        // call this to Enable
+        function enableS() {
+        window.removeEventListener('DOMMouseScroll', preventDefault, false);
+        window.removeEventListener(wheelEvent, preventDefault, wheelOpt); 
+        window.removeEventListener('touchmove', preventDefault, wheelOpt);
+        window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+        }        
+
+        if(flag == true){
+            disableS();
+        } else {
+            enableS();
+        }
+    }
+
     disableScrolling() {
         if (window.screen.width >= 768) {
             // var x = window.scrollX;
             // var y = window.scrollY;
             // window.onscroll = function () { window.scrollTo(x, y); };
-            window.onscroll =  () => { this.itemToObserve.scrollIntoView({
-                block: "nearest"
-            }) };
+            // setTimeout(function(){
+            //     if(this.elementIsInView == 'true'){
+            //     } else {
+            //         console.log('scrillinview not called')
+            //     }
+            // }, 200)
+            
+            window.onscroll =  (event) => { this.itemToObserve.scrollIntoView({
+                    block: "center",
+                    behavior: "smooth"
+                });
+                // this.removeScroll(true);
+                // event.preventDefault();
+                // console.log(event.deltaY)
+            };
+            // setTimeout(function(){
+            //         this.removeScroll(flase);
+            //     }, 200)
 
         }
     }
+    
+    
 
     enableScrolling() {
         if (window.screen.width >= 768) {
             window.onscroll = function () { };
+            // this.removeScroll(false)
         }
     }
 
