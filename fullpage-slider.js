@@ -16,12 +16,13 @@ class VERTICALSLIDER {
     }
 
     checkInView() {
+        // function to check scroll up and down + same time enables and disables based on element is in view or not.
         var lastScrollTop = 0;
         window.addEventListener("scroll", () => { 
             var st = window.pageYOffset || document.documentElement.scrollTop; 
             this.isScroll = st > lastScrollTop;
             lastScrollTop = st <= 0 ? 0 : st; 
-            //    console.log("scroll")
+            //    console.log(this.elementIsInView)
             this.enableDisableSlider()
         }, false);
         this.observer = new IntersectionObserver((wrapper) => {
@@ -30,6 +31,7 @@ class VERTICALSLIDER {
                 // this.enableDisableSlider(true);
             }
             else{
+                // console.log("not")
                 this.elementIsInView = false;
                 // this.enableDisableSlider(false);
             }
@@ -37,35 +39,36 @@ class VERTICALSLIDER {
         this.observer.observe(this.itemToObserve);
     }
 
-    enableDisableSlider(data){
+    enableDisableSlider(){
+        // issues is here when elements comes in view.
         if(this.elementIsInView){
             if(this.activeSlide == 0 && this.isScroll && !this.hasSlidesChanged && !this.sliderReset){
                 // this.swpCrtl.params.mousewheel.releaseOnEdges = false;
-                console.log("active slide 0, scroll down, slide not changed")
-                console.log("upar mat jane do")
+                // console.log("active slide 0, scroll down, slide not changed")
+                // console.log("upar mat jane do")
                 this.swiper.mousewheel.enable();
                 this.sliderReset = true;
                 this.disableScrolling();
             }
             else if(this.activeSlide == 0 && !this.isScroll && !this.hasSlidesChanged && this.sliderReset){
                 // this.swpCrtl.params.mousewheel.releaseOnEdges = false;
-                console.log("active slide 0, scroll up, slide not changed")
-                console.log("upar jane do")
+                // console.log("active slide 0, scroll up, slide not changed")
+                // console.log("upar jane do")
                 this.swiper.mousewheel.disable();
                 this.sliderReset = false;
                 this.enableScrolling();
             }
             else if(this.activeSlide == this.swiper.slides.length-1 && this.isScroll && !this.hasSlidesChanged && this.sliderReset){
-                console.log("active slide full, scroll down, slide not changed")
-                console.log("niche jane do")
+                // console.log("active slide full, scroll down, slide not changed")
+                // console.log("niche jane do")
                 this.hasSlidesChanged = false;
                 this.swiper.mousewheel.disable();
                 this.sliderReset = false;
                 this.enableScrolling();
             }
             else if(this.activeSlide == this.swiper.slides.length-1 && !this.isScroll && !this.hasSlidesChanged && !this.sliderReset){
-                console.log("active slide full, scroll up, slide not changed")
-                console.log("niche mat jane do")
+                // console.log("active slide full, scroll up, slide not changed")
+                // console.log("niche mat jane do")
                 this.swiper.mousewheel.enable();
                 this.sliderReset = true;
                 this.disableScrolling();
