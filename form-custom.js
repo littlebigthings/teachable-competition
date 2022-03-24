@@ -97,7 +97,7 @@ class SALSEFORCEFORM {
         try {
             const res = await fetch(
                 // `https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&oid=${filledData.oid}&email=${filledData.email}&agree-to-receive-product-and-marketing-updates=${filledData.getUpdate}&lead-capture-path=${filledData.leadCapturePath}`,
-                `https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&oid=${filledData.oid}&email=${filledData.email}&agree-to-receive-product-and-marketing-updates=${filledData.getUpdate}&00N3t00000GH4mJ=${filledData.leadCapturePath}&00N3t00000GH4mO=${filledData.moduleId}&00N4z000003vL9z=${filledData.dropDownVal}`,
+                `https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&oid=${filledData.oid}&email=${filledData.email}&agree-to-receive-product-and-marketing-updates=${filledData.getUpdate}&00N3t00000GH4mJ=${filledData.leadCapturePath}&00N3t00000GH4mO=${filledData.moduleId}&00N4z000003vL9z=${filledData.dropDownVal}&url=${filledData.leadCapturePath}`,
                 requestOptions
             );
 
