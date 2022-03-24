@@ -27,7 +27,7 @@ class SALSEFORCEFORM {
                 item.addEventListener("click", (evt) => {
                     // let currData = evt.currentTarget.getAttribute("data-audience");
                     let currText = evt.currentTarget.innerHTML;
-                    if(currData.length > 0){
+                    if(currText.length > 0){
                         this.dropDownData = currText;
                         this.dropDownTitle.innerHTML = currText;
                         this.dropDownWrapper.classList.remove("hide-dropdown");
