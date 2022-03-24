@@ -22,12 +22,14 @@ class VERTICALSLIDER {
         //     var st = window.pageYOffset || document.documentElement.scrollTop; 
         //     this.isScroll = st > lastScrollTop;
         //     lastScrollTop = st <= 0 ? 0 : st; 
-        //     // this.enableDisableSlider()
+        //     this.enableDisableSlider()
         // }, false);
         this.observer = new IntersectionObserver((wrapper) => {
             if (wrapper[0]['isIntersecting'] == true) {
                 this.elementIsInView = true;
                 console.log('ob - true')
+                // alert("came")
+                this.swiper.mousewheel.enable();
                 // this.removeScroll(true, window);
                 this.centerEle()
                 //    console.log(this.elementIsInView)
@@ -41,6 +43,7 @@ class VERTICALSLIDER {
                 // console.log("not")
                 this.elementIsInView = false;
                 setTimeout( ()=>{
+                    this.swiper.mousewheel.disable();
                     this.swiper.params.mousewheel.releaseOnEdges = false;                
                 }, 200)
                 // this.enableDisableSlider(false);
@@ -57,36 +60,40 @@ class VERTICALSLIDER {
         if(this.elementIsInView){
 
 
-            if(this.activeSlide == 0 && this.isScroll && !this.hasSlidesChanged){
+            if(this.activeSlide == 0 && this.isScroll && !this.hasSlidesChanged && !this.sliderReset){
+                alert("1")
                 // this.swpCrtl.params.mousewheel.releaseOnEdges = false;
                 // console.log("active slide 0, scroll down, slide not changed")
                 // console.log("upar mat jane do")
-                this.swiper.mousewheel.enable();
+                // this.swiper.mousewheel.enable();
                 this.sliderReset = true;
                 this.centerEle();
             }
-            else if(this.activeSlide == 0 && !this.isScroll && !this.hasSlidesChanged ){
+            else if(this.activeSlide == 0 && !this.isScroll && !this.hasSlidesChanged && this.sliderReset){
+                alert("2")
                 // this.swpCrtl.params.mousewheel.releaseOnEdges = false;
                 // console.log("active slide 0, scroll up, slide not changed")
                 // console.log("upar jane do")
-                this.swiper.mousewheel.disable();
+                // this.swiper.mousewheel.disable();
                 this.sliderReset = false;
                 this.addScrollFromWindow();
             }
-            else if(this.activeSlide == this.swiper.slides.length-1 && this.isScroll && !this.hasSlidesChanged){
+            else if(this.activeSlide == this.swiper.slides.length-1 && this.isScroll && !this.hasSlidesChanged && this.sliderReset){
+                alert("3")
                 // console.log("active slide full, scroll down, slide not changed")
                 // console.log("niche jane do")
                 this.hasSlidesChanged = false;
-                this.swiper.mousewheel.disable();
+                // this.swiper.mousewheel.disable();
                 this.sliderReset = false;
                 this.addScrollFromWindow();
             }
             else if(this.activeSlide == this.swiper.slides.length-1 && !this.isScroll && !this.hasSlidesChanged){
+                alert("4")
                 // console.log("active slide full, scroll up, slide not changed")
                 // console.log("niche mat jane do")
-                this.swiper.mousewheel.enable();
+                // this.swiper.mousewheel.enable();
                 this.sliderReset = true;
-                // this.centerEle();
+                this.centerEle();
             }
             // else if(this.activeSlide == this.swiper.slides.length-1 && this.isScroll && !this.hasSlidesChanged && !this.sliderReset){
             //     console.log("active slide full, scroll down, slide not changed")
@@ -220,7 +227,7 @@ class VERTICALSLIDER {
                     on: {
                         init: (swiper) => {
                             this.swpCrtl = swiper;
-                            // swiper.mousewheel.disable();
+                            swiper.mousewheel.disable();
                         }
                     },
                 });
