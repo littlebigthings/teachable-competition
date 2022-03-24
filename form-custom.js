@@ -74,6 +74,16 @@ class SALSEFORCEFORM {
                 },
                 );
             }
+            if(this.dropDownData != null){
+                iris.emit("email_submitted", {
+                    email:$("[data-input-type='email']").val(),
+                    external_source: "webflow",
+                    eu: $("[wrapper='form']").data('eu'),
+                    opted_into_marketing_materials: $("[wrapper='form']").find("input[type='checkbox']").prop('checked'),
+                    survey_marketing_audience_size: this.dropDownData,
+                    title: "March 2022 Competition",
+                });
+            }
 
             if(this.dropDownData != null){
                 let resFromSf = this.sendDataToSalseForce(filledData);
